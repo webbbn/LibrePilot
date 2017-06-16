@@ -49,7 +49,7 @@ int32_t PIOS_GPIO_Init(uint32_t *gpios_dev_id, const struct pios_gpio_cfg *cfg)
             GPIO_PinAFConfig(gpio->pin.gpio, gpio->pin.init.GPIO_Pin, gpio->remap);
         }
 
-        GPIO_Init(gpio->pin.gpio, (GPIO_InitTypeDef *)&gpio->pin.init);
+        GPIO_Init(gpio->pin.gpio, &gpio->pin.init);
 
         PIOS_GPIO_Off(*gpios_dev_id, i);
     }
@@ -75,9 +75,9 @@ void PIOS_GPIO_On(uint32_t gpios_dev_id, uint8_t gpio_id)
     const struct pios_gpio *gpio = &(gpio_cfg->gpios[gpio_id]);
 
     if (gpio->active_low) {
-        gpio->pin.gpio->BRR = gpio->pin.init.GPIO_Pin;
+        GPIO_ResetBits(gpio->pin.gpio, gpio->pin.init.GPIO_Pin);
     } else {
-        gpio->pin.gpio->BSRR = gpio->pin.init.GPIO_Pin;
+        GPIO_SetBits(gpio->pin.gpio, gpio->pin.init.GPIO_Pin);
     }
 }
 
@@ -99,9 +99,9 @@ void PIOS_GPIO_Off(uint32_t gpios_dev_id, uint8_t gpio_id)
     const struct pios_gpio *gpio = &(gpio_cfg->gpios[gpio_id]);
 
     if (gpio->active_low) {
-        gpio->pin.gpio->BSRR = gpio->pin.init.GPIO_Pin;
+        GPIO_SetBits(gpio->pin.gpio, gpio->pin.init.GPIO_Pin);
     } else {
-        gpio->pin.gpio->BRR = gpio->pin.init.GPIO_Pin;
+        GPIO_ResetBits(gpio->pin.gpio, gpio->pin.init.GPIO_Pin);
     }
 }
 
@@ -122,10 +122,18 @@ void PIOS_GPIO_Toggle(uint32_t gpios_dev_id, uint8_t gpio_id)
 
     const struct pios_gpio *gpio = &(gpio_cfg->gpios[gpio_id]);
 
-    if (((gpio->pin.gpio->ODR & gpio->pin.init.GPIO_Pin) != 0) ^ gpio->active_low) {
-        PIOS_GPIO_Off(gpios_dev_id, gpio_id);
+    if (GPIO_ReadOutputDataBit(gpio->pin.gpio, gpio->pin.init.GPIO_Pin) == Bit_SET) {
+        if (gpio->active_low) {
+            PIOS_GPIO_On(gpios_dev_id, gpio_id);
+        } else {
+            PIOS_GPIO_Off(gpios_dev_id, gpio_id);
+        }
     } else {
-        PIOS_GPIO_On(gpios_dev_id, gpio_id);
+        if (gpio->active_low) {
+            PIOS_GPIO_Off(gpios_dev_id, gpio_id);
+        } else {
+            PIOS_GPIO_On(gpios_dev_id, gpio_id);
+        }
     }
 }
 

@@ -12,6 +12,7 @@ ALL_BOARDS := coptercontrol revolution revonano sparky2
 ALL_BOARDS += revoproto
 ALL_BOARDS += oplinkmini
 ALL_BOARDS += gpsplatinum
+ALL_BOARDS += gpsdiamond
 ALL_BOARDS += osd
 ALL_BOARDS += discoveryf4bare
 ALL_BOARDS += ccf3d spracingf3 spracingf3evo nucleof303re pikoblx tinyfish
@@ -37,6 +38,7 @@ gpsplatinum_short      := 'gps9'
 nucleof303re_short     := 'nf3r'
 pikoblx_short          := 'piko'
 tinyfish_short         := 'tfsh'
+gpsdiamond_short       := 'gpsd'
 
 # Start out assuming that we'll build fw, bl and bu for all boards
 FW_BOARDS  := $(ALL_BOARDS)

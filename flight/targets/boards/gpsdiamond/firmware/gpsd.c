@@ -1,17 +1,17 @@
 /**
  ******************************************************************************
- * @addtogroup OpenPilotSystem OpenPilot System
- * @brief These files are the core system files of OpenPilot.
- * They are the ground layer just above PiOS. In practice, OpenPilot actually starts
- * in the main() function of openpilot.c
+ * @addtogroup LibrePilotSystem LibrePilot System
+ * @brief These files are the core system files of LibrePilot.
+ * They are the ground layer just above PiOS.
  * @{
- * @addtogroup OpenPilotCore OpenPilot Core
+ * @addtogroup LibrePilotCore LibrePilot Core
  * @brief This is where the OP firmware starts. Those files also define the compile-time
  * options of the firmware.
  * @{
- * @file       openpilot.c
+ * @file       gpsd.c
+ * @author     The LibrePilot Team, http://www.librepilot.org Copyright (C) 2017.
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
- * @brief      Sets up and runs main OpenPilot tasks.
+ * @brief      Sets up and runs main LibrePilot tasks.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -36,15 +36,17 @@
 #include <hwsettings.h>
 #include <pios_board_init.h>
 
+
 /* Task Priorities */
 #define PRIORITY_TASK_HOOKS (tskIDLE_PRIORITY + 3)
 
 /* Global Variables */
 
 extern void Stack_Change(void);
+extern void GPSPSystemModStart(void);
 
 /**
- * OpenPilot Main function:
+ * GPS Diamond Main function:
  *
  * Initialize PiOS<BR>
  * Create the "System" task (SystemModInitializein Modules/System/systemmod.c) <BR>
@@ -70,7 +72,6 @@ int main()
     vTaskStartScheduler();
 
     /* If all is well we will never reach here as the scheduler will now be running. */
-
     /* Do some indication to user that something bad just happened */
     while (1) {
 #if defined(PIOS_LED_HEARTBEAT)

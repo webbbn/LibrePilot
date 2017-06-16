@@ -44,6 +44,7 @@
 #include "inc/gps9flashhandler.h"
 #include "inc/gps9protocol.h"
 #include "pios_board_info.h"
+#include <pios_board_init.h>
 
 extern uint32_t pios_com_main_id;
 
@@ -107,9 +108,17 @@ static void gpspSystemTask(__attribute__((unused)) void *parameters)
 #ifdef PIOS_INCLUDE_WDG
     PIOS_WDG_UpdateFlag(PIOS_WDG_SYSTEM);
 #endif
+
+    /* board driver init */
+    PIOS_Board_Init();
+
+    /* Initialize all modules */
+    MODULE_INITIALISE_ALL;
+
     while (!initTaskDone) {
         vTaskDelay(10);
     }
+
 #ifndef PIOS_INCLUDE_WDG
 // if no watchdog is enabled, don't reset watchdog in MODULE_TASKCREATE_ALL loop
 #define PIOS_WDG_Clear()
@@ -127,13 +136,14 @@ static void gpspSystemTask(__attribute__((unused)) void *parameters)
 #if defined(PIOS_INCLUDE_IAP)
     PIOS_IAP_WriteBootCount(0);
 #endif
+
     /* Right now there is no configuration and uart speed is fixed at 57600.
      * TODO:
      * 1) add a tiny ubx parser on gps side to intercept CFG-RINV and use that for config storage;
      * 2) second ubx parser on uart side that intercept custom configuration message and flash commands.
      */
     PIOS_COM_ChangeBaud(pios_com_main_id, GPS_MODULE_DEFAULT_BAUDRATE);
-    setupGPS();
+    // setupGPS();
     uint32_t ledTimer = 0;
     static TickType_t lastUpdate;
     readFirmwareInfo();
@@ -143,7 +153,7 @@ static void gpspSystemTask(__attribute__((unused)) void *parameters)
         PIOS_WDG_UpdateFlag(PIOS_WDG_SYSTEM);
 #endif
         uint32_t ledPeriod = PIOS_DELAY_DiffuS(ledTimer) / 1000;
-        if (ledPeriod < HB_LED_BLINK_ON_PERIOD_MS) {
+        if (ledPeriod < HB_LED_BLINK_OFF_PERIOD_MS) {
             PIOS_LED_Off(PIOS_LED_HEARTBEAT);
         } else {
             PIOS_LED_On(PIOS_LED_HEARTBEAT);
@@ -152,8 +162,8 @@ static void gpspSystemTask(__attribute__((unused)) void *parameters)
             ledTimer = PIOS_DELAY_GetRaw();
         }
 
-        handleGPS();
-        handleMag();
+        // handleGPS();
+        // handleMag();
         updateStats();
         vTaskDelayUntil(&lastUpdate, SYSTEM_UPDATE_PERIOD_MS * configTICK_RATE_HZ / 1000);
     }

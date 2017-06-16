@@ -1,10 +1,14 @@
 /**
  ******************************************************************************
- *
- * @file       gps9flashhandler.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2014.
- * @brief      Flash handler for GPSV9.
- *             --
+ * @addtogroup CopterControlBL CopterControl BootLoader
+ * @brief These files contain the code to the CopterControl Bootloader.
+ * @{
+ * @file       pios_config.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @brief      PiOS configuration header.
+ *             Central compile time config for the project.
+ *             In particular, pios_config.h is where you define which PiOS libraries
+ *             and features are included in the firmware.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -23,17 +27,26 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "inc/gps9flashhandler.h"
 
-extern uintptr_t flash_id;
-extern struct pios_flash_driver pios_jedec_flash_driver;
-extern uintptr_t flash_id;
+#ifndef PIOS_CONFIG_H
+#define PIOS_CONFIG_H
 
-bool flash_available()
-{
-#ifdef GPSDIAMOND
-    return false;
-#else
-    return flash_id > 0;
-#endif
-}
+/* Enable/Disable PiOS modules */
+#define PIOS_INCLUDE_DELAY
+#define PIOS_INCLUDE_SYS
+#define PIOS_INCLUDE_IRQ
+#define PIOS_INCLUDE_GPIO
+#define PIOS_INCLUDE_LED
+#define PIOS_INCLUDE_IAP
+#define PIOS_INCLUDE_COM
+#define PIOS_INCLUDE_USART
+#define PIOS_INCLUDE_COM_MSG
+#define PIOS_INCLUDE_BL_HELPER
+#define PIOS_INCLUDE_BL_HELPER_WRITE_SUPPORT
+
+#endif /* PIOS_CONFIG_H */
+
+/**
+ * @}
+ * @}
+ */

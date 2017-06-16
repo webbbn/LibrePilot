@@ -1,10 +1,12 @@
 /**
  ******************************************************************************
- *
- * @file       gps9flashhandler.c
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2014.
- * @brief      Flash handler for GPSV9.
- *             --
+ * @addtogroup OpenPilotSystem OpenPilot System
+ * @{
+ * @addtogroup OpenPilotCore OpenPilot Core
+ * @{
+ * @file       openpilot.h
+ * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @brief      Main OpenPilot header.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -23,17 +25,27 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#include "inc/gps9flashhandler.h"
 
-extern uintptr_t flash_id;
-extern struct pios_flash_driver pios_jedec_flash_driver;
-extern uintptr_t flash_id;
+#ifndef OPENPILOT_H
+#define OPENPILOT_H
 
-bool flash_available()
-{
-#ifdef GPSDIAMOND
-    return false;
-#else
-    return flash_id > 0;
-#endif
-}
+/* PIOS Includes */
+#include <pios.h>
+
+/* OpenPilot Libraries */
+#include <utlist.h>
+#include <uavobjectmanager.h>
+#include <eventdispatcher.h>
+#include <uavtalk.h>
+
+#include "alarms.h"
+
+/* Global Functions */
+void OpenPilotInit(void);
+
+#endif /* OPENPILOT_H */
+
+/**
+ * @}
+ * @}
+ */
