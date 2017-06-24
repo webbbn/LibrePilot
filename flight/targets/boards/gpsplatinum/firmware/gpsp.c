@@ -42,6 +42,7 @@
 /* Global Variables */
 
 extern void Stack_Change(void);
+extern void GPSPSystemModStart(void);
 
 /**
  * OpenPilot Main function:

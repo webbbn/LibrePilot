@@ -33,7 +33,9 @@ bool flash_available()
 {
 #ifdef GPSDIAMOND
     return false;
+
 #else
     return flash_id > 0;
+
 #endif
 }
