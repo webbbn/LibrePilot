@@ -89,6 +89,9 @@
 /* Sparky2 5X83s are all external and thus don't have GPIOs #define PIOS_HMC5X83_HAS_GPIOS */
 /* #define PIOS_INCLUDE_BMP085 */
 #define PIOS_INCLUDE_MS5611
+/* #define PIOS_INCLUDE_MS5607 */
+/* #define PIOS_INCLUDE_MS5637 */
+#define PIOS_MS56XX_CSB_LOW
 #define PIOS_INCLUDE_MPXV
 #define PIOS_INCLUDE_ETASV3
 #define PIOS_INCLUDE_MS4525DO

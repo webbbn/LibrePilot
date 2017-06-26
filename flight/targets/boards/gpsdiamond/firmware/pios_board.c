@@ -137,18 +137,11 @@ void PIOS_Board_Init(void)
     }
 
 #ifdef PIOS_INCLUDE_MS5637
-    const struct pios_ms5637_cfg *ms5637_cfg = PIOS_BOARD_HW_DEFS_GetMS5637Cfg(pios_board_info_blob.board_rev);
+    const struct pios_ms56xx_cfg *ms5637_cfg = PIOS_BOARD_HW_DEFS_GetMS56xxCfg(pios_board_info_blob.board_rev);
     if (ms5637_cfg) {
-        PIOS_MS5637_Init(ms5637_cfg, pios_i2c_sensors_id);
+        PIOS_MS56xx_Init(ms5637_cfg, pios_i2c_sensors_id);
     }
 #endif /* PIOS_INCLUDE_MS5637 */
-
-#ifdef PIOS_INCLUDE_MS5611
-    const struct pios_ms5611_cfg *ms5611_cfg = PIOS_BOARD_HW_DEFS_GetMS5611Cfg(pios_board_info_blob.board_rev);
-    if (ms5611_cfg) {
-        PIOS_MS5611_Init(ms5611_cfg, pios_i2c_sensors_id);
-    }
-#endif /* PIOS_INCLUDE_MS5611 */
 
 #endif /* PIOS_INCLUDE_I2C */
 }

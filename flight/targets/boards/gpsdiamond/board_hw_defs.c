@@ -262,29 +262,15 @@ void PIOS_I2C_sensors_irq_handler(void)
  * Configuration for the MS5637 chip
  */
 #if defined(PIOS_INCLUDE_MS5637)
-#include "pios_ms5637.h"
-static const struct pios_ms5637_cfg pios_ms5637_cfg = {
-    .oversampling = MS5637_OSR_4096,
+#include "pios_ms56xx.h"
+static const struct pios_ms56xx_cfg pios_ms5637_cfg = {
+    .oversampling = MS56XX_OSR_4096,
 };
-const struct pios_ms5637_cfg *PIOS_BOARD_HW_DEFS_GetMS5637Cfg(__attribute__((unused)) uint32_t board_revision)
+const struct pios_ms56xx_cfg *PIOS_BOARD_HW_DEFS_GetMS56xxCfg(__attribute__((unused)) uint32_t board_revision)
 {
     return &pios_ms5637_cfg;
 }
 #endif /* PIOS_INCLUDE_MS5637 */
-
-/**
- * Configuration for the MS5611 chip
- */
-#if defined(PIOS_INCLUDE_MS5611)
-#include "pios_ms5611.h"
-static const struct pios_ms5611_cfg pios_ms5611_cfg = {
-    .oversampling = MS5611_OSR_4096,
-};
-const struct pios_ms5611_cfg *PIOS_BOARD_HW_DEFS_GetMS5611Cfg(__attribute__((unused)) uint32_t board_revision)
-{
-    return &pios_ms5611_cfg;
-}
-#endif /* PIOS_INCLUDE_MS5611 */
 
 #endif /* PIOS_INCLUDE_I2C */
 

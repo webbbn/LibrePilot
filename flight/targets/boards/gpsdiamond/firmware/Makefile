@@ -47,8 +47,7 @@ SRC += $(OPSYSTEM)/gpsd.c
 SRC += $(OPSYSTEM)/pios_board.c
 SRC += $(FLIGHTLIB)/ubx_utils.c
 
-SRC += $(PIOSCOMMON)/pios_ms5637.c
-SRC += $(PIOSCOMMON)/pios_ms5611.c
+SRC += $(PIOSCOMMON)/pios_ms56xx.c
 
 ## UAVObjects
 SRC += $(FLIGHT_UAVOBJ_DIR)/firmwareiapobj.c
