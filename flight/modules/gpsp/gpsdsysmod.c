@@ -44,7 +44,7 @@
 #include "inc/gps9flashhandler.h"
 #include "inc/gps9protocol.h"
 #include "pios_board_info.h"
-#include <pios_board_init.h>
+#include "pios_board_init.h"
 
 extern uint32_t pios_com_main_id;
 
@@ -94,8 +94,7 @@ int32_t GPSPSystemModStart(void)
  */
 int32_t GPSPSystemModInitialize(void)
 {
-    GPSPSystemModStart();
-
+    // Module started in main
     return 0;
 }
 
